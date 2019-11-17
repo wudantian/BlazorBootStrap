@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/BlazorBootstrap/bin/Debug/netstandard2.0
+/BlazorBootstrap/obj
+/BlazorBootstrapTest/bin/Debug/netcoreapp3.0
+/BlazorBootstrapTest/obj

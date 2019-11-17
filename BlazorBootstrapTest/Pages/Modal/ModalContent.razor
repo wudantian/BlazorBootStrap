@@ -1,0 +1,27 @@
+﻿<div class="modal-body">
+    <p>Show bootstrap modal dialog</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    <button type="button" class="btn btn-primary" @onclick="Ok">OK</button>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<object> OnCancel { get; set; }
+    [Parameter]
+    public EventCallback<object> OnOK { get; set; }
+
+
+    private  void Cancel()
+    {
+        if (OnCancel.HasDelegate)
+            OnCancel.InvokeAsync(null);
+    }
+
+    private void Ok()
+    {
+        if (OnOK.HasDelegate)
+            OnOK.InvokeAsync(null);
+    }
+}

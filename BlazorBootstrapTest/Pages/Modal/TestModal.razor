@@ -1,0 +1,35 @@
+﻿@page "/TestModal"
+
+@using BlazorBootstrap.Modal
+
+<h3>TestModal</h3>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" @onclick="@ShowDialog">Test Modal</button>
+
+
+
+<Modal @ref="dialog" Title="Bootstrap Dialog">
+    <Content>
+        <ModalContent OnCancel="CloseDialog" OnOK="ToDo" />
+    </Content>
+</Modal>
+
+@code {
+    private Modal dialog;
+    private void ShowDialog()
+    {
+        dialog.Show();
+    }
+
+    private void CloseDialog()
+    {
+        dialog.Close();
+    }
+
+    private void ToDo()
+    {
+        dialog.Close();
+        Console.WriteLine("To do something");
+    }
+}

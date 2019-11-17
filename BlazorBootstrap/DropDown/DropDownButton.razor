@@ -1,0 +1,41 @@
+﻿
+    <div class="dropdown" @onmouseout="MouseOut" @onmouseover="MouseIn">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+               @onclick="ButtonClick" @onfocusout="MenuOut" >
+            Dropdown button
+        </button>
+        <div class="dropdown-menu @showCss" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
+                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+            @Content
+        </div>
+    </div>
+
+@code {
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    private bool isVisible = false;
+    private string showCss => isVisible? "show":null;
+    private bool isActive = false;
+
+    private void ButtonClick()
+    {
+        isVisible = !isVisible;
+    }
+
+    private void MenuOut()
+    {
+        if (!isActive)
+            isVisible = false;
+    }
+
+    private void MouseIn()
+    {
+        isActive = true;
+    }
+
+    private void MouseOut()
+    {
+        isActive = false;
+    }
+}
