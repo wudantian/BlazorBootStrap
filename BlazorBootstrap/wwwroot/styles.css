@@ -2,10 +2,19 @@
     This file is to show how CSS and other static resources (such as images) can be
     used from a library project/package.
 */
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
-.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
+.table-cell-hover tbody tr td:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.table-row-hover th:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.span-hover span:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
 }

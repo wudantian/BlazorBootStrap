@@ -2,8 +2,8 @@
 @if (isVisible)
 {
     <div class="modal-backdrop fade show d-block"></div>
-    <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true" @onclick="Close">
-        <div class="modal-dialog modal-dialog-centered " role="document">
+    <div class="modal fade show  d-block" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true" @onclick="Close2">
+        <div class="modal-dialog modal-dialog-centered" role="document" @onmouseout="MouseOut" @onmouseover="MouseIn">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@Title</h5>
@@ -27,9 +27,18 @@
     [Parameter]
     public RenderFragment Content { get; set; }
 
+    private bool active = false;
+    private void MouseIn()
+    {
+        active = true;
+    }
+
+    private void MouseOut()
+    {
+        active = false;
+    }
     public void Show()
     {
-        //ShowCss = "d-block show";
         isVisible = true;
     }
 
@@ -39,5 +48,11 @@
         //ShowCss = "d-none";
         Title = null;
         Content = null;
+    }
+
+    private void Close2()
+    {
+        if (!active)
+            Close();
     }
 }

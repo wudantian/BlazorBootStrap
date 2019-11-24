@@ -1,11 +1,10 @@
 ﻿
-    <div class="dropdown" @onmouseout="MouseOut" @onmouseover="MouseIn">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-               @onclick="ButtonClick" @onfocusout="MenuOut" >
-            Dropdown button
+    <div class="dropdown">
+        <button class="btn btn-primary @Class dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+               @onclick="ButtonClick" @onfocusout="MenuOut" @onmouseout="MouseOut" @onmouseover="MouseIn">
+            @Text
         </button>
-        <div class="dropdown-menu @showCss" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" 
-                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+        <div class="dropdown-menu @showCss" @onfocusout="MenuOut" @onmouseout="MouseOut" @onmouseover="MouseIn">
             @Content
         </div>
     </div>
@@ -13,7 +12,22 @@
 @code {
     [Parameter]
     public RenderFragment Content { get; set; }
+    [Parameter]
+    public string Text { get; set; } = "Button";
 
+    [Parameter]
+    public string Class { get; set; } = null;
+
+    public bool DropDown {
+        get
+        {
+            return isVisible;
+        }
+        set
+        {
+            isVisible = value;
+        }
+    }
     private bool isVisible = false;
     private string showCss => isVisible? "show":null;
     private bool isActive = false;
@@ -31,11 +45,13 @@
 
     private void MouseIn()
     {
+        //Console.WriteLine("mouse in");
         isActive = true;
     }
 
     private void MouseOut()
     {
+        //Console.WriteLine("mouse out");
         isActive = false;
     }
 }

@@ -1,0 +1,23 @@
+﻿<span class="span-hover @textCss">
+    @Text
+</span>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+    [Parameter]
+    public object ID { get; set; }
+    [Parameter]
+    public bool IsMute { get; set; }
+    [Parameter]
+    public EventCallback<object> OnClick { get; set; }
+
+    private bool IsMouseOver = false;
+    private string textCss => IsMute ? "text-muted" : null;
+
+    private void Click()
+    {
+        if (OnClick.HasDelegate)
+            OnClick.InvokeAsync(ID);
+    }
+}
