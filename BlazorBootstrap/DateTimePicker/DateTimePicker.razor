@@ -1,90 +1,82 @@
 ﻿@using BlazorBootstrap
+
 <div class="input-group input-group-sm flex-nowrap border">
-    <input type="datetime" class="form-control border-0" placeholder="Please input datetime">
+    <input type="datetime" class="form-control border-0" placeholder="Please input datetime" value="@DateTime" />
     <div class="input-group-append">
         <span class="align-content-center align-bottom oi oi-calendar m-2" @onclick="ToggleCalendar">
         </span>
     </div>
     <div class="dropdown-menu dropdown-menu-right pl-3 pr-3 @showCss">
-        <table class="table table-borderless table-sm text-center table-cell-hover">
-            <thead>
-                <tr class="table-row-hover">
-                    <th scope="col" class="align-middle">
-                        <span class="oi oi-chevron-left" />
-                    </th>
-                    <th scope="col" colspan="5">
-                        <span style="font-size:large;font-weight:bold">2019年8月</span>
-                    </th>
-                    <th scope="col" class="align-middle">
-                        <span class="oi oi-chevron-right" />
-                    </th>
-                </tr>
-                <tr>
-                    <th>日</th>
-                    <th>一</th>
-                    <th>二</th>
-                    <th>三</th>
-                    <th>四</th>
-                    <th>五</th>
-                    <th>六</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    if (DateTime > DateTime.MinValue)
-                    {
-                        var firstDayInMonth = new DateTime(DateTime.Year, DateTime.Month, 1);
-                        var firstDayInWeek = (int)firstDayInMonth.DayOfWeek;
-                        var firstDayInCalendar = firstDayInMonth.AddDays(-1 * firstDayInWeek);
-                        var lastDayInCalendar = firstDayInCalendar.AddDays(34);
-                        while (firstDayInCalendar < lastDayInCalendar)
-                        {
-                            <tr>
-                                @for (int i = 0; i < 7; i++)
-                                {
-                                    <td><DateTimeCell ID="@firstDayInCalendar" 
-                                                      IsMute="@(firstDayInCalendar< firstDayInMonth || firstDayInCalendar>lastDayInCalendar)" 
-                                                      Text="@firstDayInCalendar.Day.ToString()"/></td>
-                                    firstDayInCalendar = firstDayInCalendar.AddDays(1);
-                                }
-                            </tr>
-                        };
-                    }
-                }
-            </tbody>
-        </table>
+        @switch (mode)
+        {
+            case "date":
+                <DateCalendar DateTime="DateTime" IsShowTime="true"
+                              OnMonthClick="ChangeMonthMode"
+                              OnDayClick="SelecedDate" 
+                              OnShowTime="ChangeTimeMode"/>
+                break;
+            case "month":
+                <MonthCalendar DateTime="DateTime"
+                               OnYearClick="ChangeYearMode"
+                               OnMonthClick="ChangeDateMode" />
+                break;
+            case "year":
+                <YearCalendar DateTime="DateTime"
+                              OnYearClick="ChangeMonthMode" />
+                break;
+            case "time":
+                <TimeCalendar Time="DateTime" 
+                         OnShowDate="ChangeDateMode"/>
+                break;
+        }
     </div>
 </div>
 
 @code {
     [Parameter]
     public DateTime DateTime { get; set; }
+    [Parameter]
+    public EventCallback<DateTime> OnSelectedDate { get; set; }
+
     private bool isVisible = false;
     private string showCss => isVisible ? "show" : null;
+
+    private string mode = "date";
 
     private void ToggleCalendar()
     {
         isVisible = !isVisible;
     }
 
-    @*private void WriteDate()
+    private void SelecedDate(DateTime date)
     {
-        if (DateTime>DateTime.MinValue)
-        {
-            var firstDayInMonth = new DateTime(DateTime.Year, DateTime.Month, 1);
-            var firstDayInWeek =(int) firstDayInMonth.DayOfWeek;
-            var firstDayInCalendar = firstDayInMonth.AddDays(-1 * firstDayInWeek);
-            var lastDayInCalendar = firstDayInCalendar.AddDays(34);
-            while (firstDayInCalendar < lastDayInCalendar)
-                {
-                    <tr>
-                        @for (int i = 0; i < 7; i++) {
-                            <th>@firstDayInCalendar.Day</th>
-                            firstDayInCalendar= firstDayInCalendar.AddDays(1);
-                        }
-                    </tr>
-                };
-        }
-    }*@
+        DateTime = date;
+        if (OnSelectedDate.HasDelegate)
+            OnSelectedDate.InvokeAsync(date);
+        isVisible = false;
+    }
 
+    private void ChangeMonthMode(DateTime date)
+    {
+        mode = "month";
+        DateTime = date;
+    }
+
+    private void ChangeYearMode(DateTime date)
+    {
+        mode = "year";
+        DateTime = date;
+    }
+
+    private void ChangeDateMode(DateTime date)
+    {
+        mode = "date";
+        DateTime = date;
+    }
+
+    private void ChangeTimeMode(DateTime date)
+    {
+        mode = "time";
+        DateTime = date;
+    }
 }

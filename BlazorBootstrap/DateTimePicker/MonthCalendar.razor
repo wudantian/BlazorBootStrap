@@ -1,0 +1,69 @@
+﻿<table class="table table-borderless table-sm text-center table-cell-hover table-cell-month">
+    <thead>
+        <tr class="table-row-hover">
+            <th scope="col" class="align-middle" @onclick="PreYear">
+                <span class="oi oi-chevron-left" />
+            </th>
+            <th scope="col" colspan="2">
+                <span class="span-title" @onclick="YearClick">@DateTime.ToString("yyyy年")</span>
+            </th>
+            <th scope="col" class="align-middle" @onclick="NextYear">
+                <span class="oi oi-chevron-right" />
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (DateTime > DateTime.MinValue)
+            {
+                var m = 1;
+                while (m < 13)
+                {
+                    <tr>
+                        @for (int i = 0; i < 4; i++)
+                        {
+                            <CalendarCell ID="@m"
+                                          Text="@(m.ToString("0月"))"
+                                          OnClick="CellClick" />
+                            m += 1;
+                        }
+                    </tr>
+                };
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public DateTime DateTime { get; set; }
+    [Parameter]
+    public EventCallback<DateTime> OnYearClick { get; set; }
+    [Parameter]
+    public EventCallback<DateTime> OnMonthClick { get; set; }
+
+    private void PreYear()
+    {
+        DateTime = DateTime.AddYears(-1);
+    }
+
+    private void NextYear()
+    {
+        DateTime = DateTime.AddYears(1);
+    }
+
+    private void YearClick()
+    {
+        OnYearClick.InvokeAsync(DateTime);
+    }
+
+    private void CellClick(object ID)
+    {
+        DateTime newDate = new DateTime(DateTime.Year, (int)ID, 1);
+        var day = DateTime.DaysInMonth(newDate.Year, newDate.Month);
+        if (day > DateTime.Day)
+            day = DateTime.Day;
+        DateTime = newDate.AddDays(day - 1);
+        OnMonthClick.InvokeAsync(DateTime);
+    }
+}

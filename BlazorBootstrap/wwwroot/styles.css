@@ -14,7 +14,43 @@
     background-color: rgba(0, 0, 0, 0.075);
 }
 
+.table-header-hover:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.table-cell-month td{
+    padding-top:1.3rem;
+    padding-bottom:1.3rem;
+    padding-left:0.55rem;
+    padding-right:0.55rem;
+}
+
+.table-cell-year td{
+    padding-top:1.3rem;
+    padding-bottom:1.3rem;
+    padding-left:0.39rem;
+    padding-right:0.39rem;
+}
+
+.table-cell-time td {
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+    padding-left: 0.24rem;
+    padding-right: 0.24rem;
+}
+
+.span-hover{
+    cursor:default;
+}
+
 .span-hover span:hover {
     color: #212529;
     background-color: rgba(0, 0, 0, 0.075);
+}
+
+.span-title {
+    font-size:large;
+    font-weight:bold;
+    cursor:default;
 }
