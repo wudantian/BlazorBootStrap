@@ -1,6 +1,7 @@
 ﻿@page "/testdropdown"
 
 @using BlazorBootstrap.DropDown
+@using BlazorBootstrap.DateTimePicker
 
 <h3>Test DropDown</h3>
 
@@ -9,11 +10,12 @@
         <a class="dropdown-item" href="#">Action</a>
         <a class="dropdown-item" href="#">Another action</a>
         <a class="dropdown-item" href="#">Something else here</a>
+        <DateCalendar DateTime="date"/>
     </Content>
 </DropDownButton>
 
 <p>test drop down demo</p>
 
 @code {
-
+    private DateTime date = DateTime.Now;
 }

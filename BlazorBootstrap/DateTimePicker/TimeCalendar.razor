@@ -1,13 +1,13 @@
-﻿<table class="table table-borderless table-sm text-center table-cell-hover table-cell-time" style="margin-bottom:0rem;">
+﻿<table class="table table-borderless table-sm text-center bb-table-cell-time" style="margin-bottom:0rem;">
     <thead>
         <tr>
-            <th scope="col" class="align-middle table-header-hover" @onclick="PreTime">
+            <th scope="col" class="align-middle bb-cell-hover" @onclick="PreTime">
                 <span class="oi oi-chevron-left" />
             </th>
             <th scope="col" colspan="2">
                 <input class="form-control form-control-sm" type="time" @bind="CurrentTime" format-value="HH:mm" />
             </th>
-            <th scope="col" class="align-middle table-header-hover" @onclick="NextTime" >
+            <th scope="col" class="align-middle bb-cell-hover" @onclick="NextTime" >
                 <span class="oi oi-chevron-right"/>
             </th>
         </tr>
@@ -20,7 +20,7 @@
             var cellTime = firstTime;
             while (m < 16)
             {
-                <tr>
+                <tr class="bb-table-row-hover">
                     @for (int i = 0; i < 4; i++)
                     {
                         <CalendarCell ID="@cellTime"
@@ -33,8 +33,8 @@
             }
             <tr>
                 <td colspan="3" />
-                <td @onclick="ShowDateCalendar">
-                    <span class="oi oi-calendar" />
+                <td class="text-right">
+                    <span class="oi oi-calendar bb-cell-hover"  @onclick="ShowDateCalendar"/>
                 </td>
             </tr>
         }
@@ -73,7 +73,8 @@
         }
         set
         {
-            _currentTime =TimeSpan.Parse(value);
+            TimeSpan.TryParse(value,out _currentTime);
+            //_currentTime =TimeSpan.Parse(value);
             _time = _time.Date.AddHours(_currentTime.Hours).AddMinutes(_currentTime.Minutes);
         }
     }
@@ -99,5 +100,6 @@
     private void CellClick(object ID)
     {
         Time = (DateTime)ID;
+        ShowDateCalendar();
     }
 }

@@ -1,11 +1,11 @@
-﻿<table class="table table-borderless table-sm text-center table-cell-hover" style="margin-bottom:0rem;">
+﻿<table class="table table-borderless table-sm text-center" style="margin-bottom:0rem;">
     <thead>
-        <tr class="table-row-hover">
+        <tr class="bb-table-head-hover">
             <th scope="col" class="align-middle" @onclick="PreMonth">
                 <span class="oi oi-chevron-left" />
             </th>
             <th scope="col" colspan="5">
-                <span class="span-title" @onclick="MonthClick">@DateTime.ToString("yyyy年MM月")</span>
+                <span class="bb-span-title" @onclick="MonthClick">@DateTime.ToString("yyyy年MM月")</span>
             </th>
             <th scope="col" class="align-middle" @onclick="NextMonth">
                 <span class="oi oi-chevron-right" />
@@ -25,14 +25,14 @@
         @{
             if (DateTime > DateTime.MinValue)
             {
-                var firstDayInMonth = new DateTime(DateTime.Year, DateTime.Month, 1);
+                var firstDayInMonth = new DateTime(DateTime.Year, DateTime.Month, 1,DateTime.Hour,DateTime.Minute,DateTime.Second);
                 var firstDayInWeek = (int)firstDayInMonth.DayOfWeek;
                 var firstDayInCalendar = firstDayInMonth.AddDays(-1 * firstDayInWeek);
                 var lastDayInCalendar = firstDayInCalendar.AddDays(34);
                 var lastDayInMonth = firstDayInMonth.AddDays(DateTime.DaysInMonth(DateTime.Year, DateTime.Month) - 1);
                 while (firstDayInCalendar < lastDayInCalendar)
                 {
-                    <tr>
+                    <tr class="bb-table-row-hover">
                         @for (int i = 0; i < 7; i++)
                         {
                             <CalendarCell ID="@firstDayInCalendar"
@@ -47,8 +47,8 @@
                 {
                     <tr>
                         <td colspan="6">&nbsp;</td>
-                        <td @onclick="ShowTime">
-                            <span class="oi oi-timer" />
+                        <td>
+                            <span class="oi oi-timer bb-cell-hover" @onclick="ShowTime"/>
                         </td>
                     </tr>
                 }

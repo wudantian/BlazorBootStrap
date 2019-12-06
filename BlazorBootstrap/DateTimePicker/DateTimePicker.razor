@@ -1,4 +1,7 @@
-﻿@using BlazorBootstrap
+﻿@using Microsoft.JSInterop;
+@using BlazorBootstrap
+@inject IJSRuntime JSRuntime;
+@using BlazorBootstrap.Common;
 
 <div class="input-group input-group-sm flex-nowrap border">
     <input type="datetime" class="form-control border-0" placeholder="Please input datetime" value="@DateTime" />
@@ -6,14 +9,15 @@
         <span class="align-content-center align-bottom oi oi-calendar m-2" @onclick="ToggleCalendar">
         </span>
     </div>
-    <div class="dropdown-menu dropdown-menu-right pl-3 pr-3 @showCss">
+    <div @ref="picker" class="dropdown-menu dropdown-menu-right pl-3 pr-3 @showCss"
+         @onfocusout="MenuOut" tabindex="-1" @onmouseout="MouseOut" @onmouseover="MouseIn">
         @switch (mode)
         {
             case "date":
                 <DateCalendar DateTime="DateTime" IsShowTime="true"
                               OnMonthClick="ChangeMonthMode"
-                              OnDayClick="SelecedDate" 
-                              OnShowTime="ChangeTimeMode"/>
+                              OnDayClick="SelecedDate"
+                              OnShowTime="ChangeTimeMode" />
                 break;
             case "month":
                 <MonthCalendar DateTime="DateTime"
@@ -25,8 +29,8 @@
                               OnYearClick="ChangeMonthMode" />
                 break;
             case "time":
-                <TimeCalendar Time="DateTime" 
-                         OnShowDate="ChangeDateMode"/>
+                <TimeCalendar Time="DateTime"
+                              OnShowDate="ChangeDateMode" />
                 break;
         }
     </div>
@@ -39,9 +43,13 @@
     public EventCallback<DateTime> OnSelectedDate { get; set; }
 
     private bool isVisible = false;
+    private bool isFocus = false;
     private string showCss => isVisible ? "show" : null;
+    private bool isActive = false;
 
     private string mode = "date";
+
+    private ElementReference picker;
 
     private void ToggleCalendar()
     {
@@ -78,5 +86,30 @@
     {
         mode = "time";
         DateTime = date;
+    }
+
+    private void MenuOut()
+    {
+        if (!isActive)
+            isVisible = false;
+    }
+
+    private void MouseIn()
+    {
+        isActive = true;
+    }
+
+    private void MouseOut()
+    {
+        isActive = false;
+    }
+
+    protected async override void OnAfterRender(bool firstRender)
+    {
+        if (isVisible && isFocus==false)
+        {
+            isFocus = true;
+            await picker.Focus(JSRuntime);
+        }
     }
 }

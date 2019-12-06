@@ -6,3 +6,9 @@ window.exampleJsFunctions = {
     return prompt(message, 'Type anything here');
   }
 };
+
+window.dateTimePickerFunctions = {
+    focusElement: function (element) {
+        element.focus();
+    }
+};

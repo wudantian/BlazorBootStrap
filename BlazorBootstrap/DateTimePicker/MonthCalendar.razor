@@ -1,11 +1,11 @@
-﻿<table class="table table-borderless table-sm text-center table-cell-hover table-cell-month">
+﻿<table class="table table-borderless table-sm text-center bb-table-cell-month">
     <thead>
-        <tr class="table-row-hover">
+        <tr class="bb-table-head-hover">
             <th scope="col" class="align-middle" @onclick="PreYear">
                 <span class="oi oi-chevron-left" />
             </th>
             <th scope="col" colspan="2">
-                <span class="span-title" @onclick="YearClick">@DateTime.ToString("yyyy年")</span>
+                <span class="bb-span-title" @onclick="YearClick">@DateTime.ToString("yyyy年")</span>
             </th>
             <th scope="col" class="align-middle" @onclick="NextYear">
                 <span class="oi oi-chevron-right" />
@@ -19,7 +19,7 @@
                 var m = 1;
                 while (m < 13)
                 {
-                    <tr>
+                    <tr class="bb-table-row-hover">
                         @for (int i = 0; i < 4; i++)
                         {
                             <CalendarCell ID="@m"
@@ -59,7 +59,7 @@
 
     private void CellClick(object ID)
     {
-        DateTime newDate = new DateTime(DateTime.Year, (int)ID, 1);
+        DateTime newDate = new DateTime(DateTime.Year, (int)ID, 1,DateTime.Hour,DateTime.Minute,DateTime.Second);
         var day = DateTime.DaysInMonth(newDate.Year, newDate.Month);
         if (day > DateTime.Day)
             day = DateTime.Day;
