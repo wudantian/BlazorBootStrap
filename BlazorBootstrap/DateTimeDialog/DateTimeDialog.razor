@@ -1,0 +1,41 @@
+﻿@using BlazorBootstrap.Modal
+
+
+<div class="input-group input-group-sm flex-nowrap border">
+    <input type="datetime" class="form-control border-0" placeholder="Please input datetime" @bind="@DateTime" />
+    <div class="input-group-append">
+        <span class="align-content-center align-bottom oi oi-calendar m-2" @onclick="ShowDialog">
+        </span>
+    </div>
+</div>
+<Modal @ref="dialog" Title="选择日期与时间">
+    <Content>
+        <DateTimeContent DateTime="DateTime" OnCancel="CloseDialog" OnOK="ToDo" />
+    </Content>
+</Modal>
+
+@code {
+    [Parameter]
+    public DateTime DateTime { get; set; } = DateTime.Now;
+    [Parameter]
+    public EventCallback<DateTime> OK { get; set; }
+    private Modal dialog;
+    private void ShowDialog()
+    {
+        dialog.Show();
+    }
+
+    private void CloseDialog()
+    {
+        dialog.Close();
+    }
+
+    private void ToDo(DateTime date)
+    {
+        DateTime = date;
+        if (OK.HasDelegate)
+            OK.InvokeAsync(DateTime);
+        dialog.Close();
+    }
+
+}

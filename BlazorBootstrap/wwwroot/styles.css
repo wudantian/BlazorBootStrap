@@ -53,3 +53,8 @@
     font-weight:bold;
     cursor:default;
 }
+
+.bb-table-cell-selected{
+    text-decoration:underline;
+    color: dodgerblue;
+}

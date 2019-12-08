@@ -4,9 +4,17 @@
 @using BlazorBootstrap.Common;
 
 <div class="input-group input-group-sm flex-nowrap border">
-    <input type="datetime" class="form-control border-0" placeholder="Please input datetime" value="@DateTime" />
+    @if (IsShowTime)
+    {
+        <input type="datetime" class="form-control border-0" placeholder="Please input datetime" @bind="DateTime" />
+    }
+    else
+    {
+        <input type="text" class="form-control border-0" placeholder="Please input datetime" @bind="DateString" />
+    }
     <div class="input-group-append">
-        <span class="align-content-center align-bottom oi oi-calendar m-2" @onclick="ToggleCalendar">
+        <span class="align-content-center align-bottom oi oi-calendar m-2" 
+              @onclick="ToggleCalendar" @onmouseout="MouseOut" @onmousemove="MouseIn">
         </span>
     </div>
     <div @ref="picker" class="dropdown-menu dropdown-menu-right pl-3 pr-3 @showCss"
@@ -14,7 +22,7 @@
         @switch (mode)
         {
             case "date":
-                <DateCalendar DateTime="DateTime" IsShowTime="true"
+                <DateCalendar DateTime="DateTime" IsShowTime="@IsShowTime"
                               OnMonthClick="ChangeMonthMode"
                               OnDayClick="SelecedDate"
                               OnShowTime="ChangeTimeMode" />
@@ -41,6 +49,25 @@
     public DateTime DateTime { get; set; }
     [Parameter]
     public EventCallback<DateTime> OnSelectedDate { get; set; }
+    [Parameter]
+    public bool IsShowTime { get; set; } = true;
+
+    private string DateString
+    {
+        get
+        {
+            return DateTime.ToString("yyyy/MM/dd");
+        }
+        set
+        {
+            DateTime d;
+            DateTime.TryParse(value, out d);
+            if (d > DateTime.MinValue)
+            {
+                DateTime = d;
+            }
+        }
+    }
 
     private bool isVisible = false;
     private bool isFocus = false;
@@ -106,10 +133,12 @@
 
     protected async override void OnAfterRender(bool firstRender)
     {
-        if (isVisible && isFocus==false)
+        if (isVisible && isFocus == false)
         {
             isFocus = true;
             await picker.Focus(JSRuntime);
         }
+        if (isVisible == false)
+            isFocus = false;
     }
 }

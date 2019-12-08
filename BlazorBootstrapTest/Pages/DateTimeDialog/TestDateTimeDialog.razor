@@ -1,0 +1,11 @@
+﻿@page   "/TestDateTimeDialog"
+@using BlazorBootstrap.DateTimeDialog
+@using BlazorBootstrap.Modal
+
+<h6>DateTime Dialog</h6>
+<DateTimeDialog  DateTime="DateTime"/>
+
+@code {
+    [Parameter]
+    public DateTime DateTime { get; set; } = DateTime.Now;
+}
