@@ -25,11 +25,18 @@
     }
 </div>
 <div class="modal-footer justify-content-between">
+    @if (IsShowTime)
+    {
         <span>@PreDateTime.ToString("yyyy/MM/dd HH:mm:ss")</span>
-        <div class="justify-content-end">
-            <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
-            <button type="button" class="btn btn-primary" @onclick="Ok">OK</button>
-        </div>
+    }
+    else
+    {
+        <span>@PreDateTime.ToString("yyyy/MM/dd")</span>
+    }
+    <div class="justify-content-end">
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" @onclick="Ok">OK</button>
+    </div>
 </div>
 
 @code {
