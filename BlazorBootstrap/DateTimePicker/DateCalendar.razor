@@ -69,9 +69,12 @@
         }
         set
         {
-            _date = value;
-            if (preDate==DateTime.MinValue)
-                preDate = value;
+            if (value == DateTime.MinValue)
+                _date = DateTime.Now;
+            else
+                _date = value;
+            if (preDate == DateTime.MinValue)
+                preDate = _date;
         }
     }
     [Parameter]

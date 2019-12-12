@@ -1,0 +1,52 @@
+﻿@page "/testswitch"
+@using BlazorBootstrap.Switch
+
+<h3>TestSwitch</h3>
+<div class="row">
+    <div class="col-4">
+        <div class="row justify-content-between">
+            <label class="col-auto col-form-label">Switch @oneTitle</label>
+            <div class="col-auto mt-2">
+                <Switch IsOn="s1" OnSwitch="Switch1Changed" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+        <div class="row justify-content-between">
+            <label class="col-auto col-form-label">Switch @towTitle</label>
+            <div class="col-auto mt-2">
+                <Switch IsOn="s2" OnSwitch="Switch2Changed" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+        <div class="row justify-content-between">
+            <label class="col-auto col-form-label">Switch Unenable</label>
+            <div class="col-auto mt-2">
+                <Switch IsEnable="false" />
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+    private bool s1 = false;
+    private bool s2 = true;
+    private string oneTitle =>s1?"On": "Off";
+    private string towTitle =>s2? "On":"Off";
+
+    private void Switch1Changed(bool value)
+    {
+        s1 = value;
+    }
+
+    private void Switch2Changed(bool value)
+    {
+        s2 = value;
+    }
+
+}

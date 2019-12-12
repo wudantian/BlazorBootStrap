@@ -45,8 +45,11 @@
         }
         set
         {
-            _date = value;
-            if (preDate==DateTime.MinValue)
+            if (value == DateTime.MinValue)
+                _date = DateTime.Now;
+            else
+                _date = value;
+            if (preDate == DateTime.MinValue)
                 preDate = value;
         }
     }
@@ -74,7 +77,7 @@
 
     private void CellClick(object ID)
     {
-        DateTime newDate = new DateTime(preDate.Year, (int)ID, 1,preDate.Hour,preDate.Minute,preDate.Second);
+        DateTime newDate = new DateTime(preDate.Year, (int)ID, 1, preDate.Hour, preDate.Minute, preDate.Second);
         var day = DateTime.DaysInMonth(newDate.Year, newDate.Month);
         if (day > DateTime.Day)
             day = DateTime.Day;

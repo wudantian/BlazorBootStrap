@@ -2,6 +2,7 @@
 
 @using BlazorBootstrap.DropDown
 @using BlazorBootstrap.DateTimePicker
+@using BlazorBootstrap.Modal
 
 <h3>Test DropDown</h3>
 
@@ -9,13 +10,37 @@
     <Content>
         <a class="dropdown-item" href="#">Action</a>
         <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        <DateCalendar DateTime="date"/>
+        <button class="dropdown-item" @onclick="ShowDialog">Something else here</button>
     </Content>
 </DropDownButton>
 
 <p>test drop down demo</p>
 
+<Modal @ref="dialog" Title="Bootstrap Dialog">
+    <Content>
+        <BlazorBootstrapTest.Pages.Modal.ModalContent OnCancel="CloseDialog" OnOK="ToDo" />
+    </Content>
+</Modal>
+
 @code {
     private DateTime date = DateTime.Now;
+
+    private BlazorBootstrap.Modal.Modal dialog;
+
+        private void ShowDialog()
+    {
+        dialog.Show();
+    }
+
+    private void CloseDialog()
+    {
+        dialog.Close();
+    }
+
+    private void ToDo()
+    {
+        dialog.Close();
+        Console.WriteLine("To do something");
+    }
+
 }

@@ -45,7 +45,7 @@
     }
 
     [Parameter]
-    public EventCallback<DateTime> OK { get; set; }
+    public EventCallback<DateTime> OnOK { get; set; }
     private Modal dialog;
     private void ShowDialog()
     {
@@ -60,8 +60,8 @@
     private void ToDo(DateTime date)
     {
         DateTime = date;
-        if (OK.HasDelegate)
-            OK.InvokeAsync(DateTime);
+        if (OnOK.HasDelegate)
+            OnOK.InvokeAsync(DateTime);
         dialog.Close();
     }
 

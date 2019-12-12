@@ -1,10 +1,19 @@
-﻿<div class="modal-body">
+﻿@using BlazorBootstrap.DateTimePicker
+@using BlazorBootstrap.DateTimeDialog
+
+<div class="modal-body">
     <p>Show bootstrap modal dialog</p>
     <select>
         <option>select one</option>
         <option>select tow</option>
         <option>select three</option>
     </select>
+    <div>
+        <DateTimePicker DateTime="@(DateTime.Now)"/>
+    </div>
+    <div>
+        <DateTimeDialog DateTime="@(DateTime.Now)"/>
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
